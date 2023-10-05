@@ -12,6 +12,14 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        description: Who are we filtering to 
+        options:
+        - Luigi
+        - Princess
+        - Mario
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 
@@ -22,8 +30,6 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo "$PWD"
-      - run: ls
       - id: set-matrix
         run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "Luigi"))')"
   job2:
