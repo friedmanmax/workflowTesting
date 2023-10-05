@@ -22,7 +22,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - id: set-matrix
-        run: echo "matrix=$(jq '.include |= map(select(.name == "Luigi"))' ${{ github.workspace }}/matrix_json.json)"
+        run: echo "matrix=$(jq '.include |= map(select(.name == "Luigi"))' matrix_json.json)"
   job2:
     needs: job1
     runs-on: ubuntu-latest
