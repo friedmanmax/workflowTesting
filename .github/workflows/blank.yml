@@ -30,6 +30,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
+      - run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "${{ inputs.choice }}"))')"
       - id: set-matrix
         run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "${{ inputs.choice }}"))')" >> $GITHUB_OUTPUT
   job2:
