@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
-        run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "{{ inputs.choice }}"))')" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "${{ inputs.choice }}"))')" >> $GITHUB_OUTPUT
   job2:
     needs: job1
     runs-on: ubuntu-latest
