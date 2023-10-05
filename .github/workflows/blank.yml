@@ -29,7 +29,8 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
-      - run: echo ${{matrix.include}}
+      - run: echo ${{matrix.project}}
+      - run: echo ${{matrix.config}}
 
 
   # This workflow contains a single job called "build"
