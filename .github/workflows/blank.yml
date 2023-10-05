@@ -24,7 +24,7 @@ jobs:
       - run: echo "$PWD"
       - run: ls
       - id: set-matrix
-        run: echo "matrix=$(jq '.include |= map(select(.name == "Luigi"))' matrix_json.json)"
+        run: echo "matrix=$(cat matrix_json.json | jq '.include |= map(select(.name == "Luigi"))')"
   job2:
     needs: job1
     runs-on: ubuntu-latest
