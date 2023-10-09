@@ -20,6 +20,16 @@ on:
         - Luigi
         - Princess
         - Mario
+      jq-version:
+        type: string
+        required: false
+        description: 'Version of jq to install'
+        default: '1.7'
+      jq-force:
+        type: boolean
+        required: false
+        description: 'Do not check for existing jq installation before continuing.'
+        default: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 
@@ -30,10 +40,17 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - name: Install jq tool
+      
+      - name: 'Setup jq'
+        uses: dcarbone/install-jq-action@v2
+        with:
+          version: '${{ inputs.version }}'
+          force: '${{ inputs.force }}'
+
+      - name: 'Check jq'
         run: |
-          sudo apt-get update
-          sudo apt-get install jq=1.7
+          which jq
+          jq --version
       - run: jq --version
       - run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] |= select(.name == "${{ inputs.choice }}")')}"
       - id: set-matrix
