@@ -31,9 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install jq tool
-          run: |
-            sudo apt-get update
-            sudo apt-get install jq=1.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq=1.7
       - run: jq --version
       - run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] |= select(.name == "${{ inputs.choice }}")')}"
       - id: set-matrix
