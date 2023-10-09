@@ -1,4 +1,4 @@
-[
+{ "include": [
     {
         "name": "Mario",
         "address": "Main st"
@@ -12,3 +12,4 @@
         "address": "Castle st"
     }
     ]
+}

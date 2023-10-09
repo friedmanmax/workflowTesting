@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Mario",
+        "address": "Main st"
+    },
+    {
+        "name": "Luigi",
+        "address": "Luigi's st"
+    },
+    {
+        "name": "Princess",
+        "address": "Castle st"
+    }
+]
