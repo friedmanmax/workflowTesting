@@ -41,20 +41,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: 'Setup jq'
-        uses: dcarbone/install-jq-action@v2.0.2
-        with:
-          version: '${{ inputs.version }}'
-          force: '${{ inputs.force }}'
+      # - name: 'Setup jq'
+      #   uses: dcarbone/install-jq-action@v2.0.2
+      #   with:
+      #     version: '${{ inputs.version }}'
+      #     force: '${{ inputs.force }}'
 
-      - name: 'Check jq'
-        run: |
-          which jq
-          jq --version
+      # - name: 'Check jq'
+      #   run: |
+      #     which jq
+      #     jq --version
       - run: jq --version
-      - run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] |= select(.name == "${{ inputs.choice }}")')}"
+      - run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] | select (.name == "Luigi")')}"
       - id: set-matrix
-        run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] |= select(.name == "${{ inputs.choice }}")')}" >> $GITHUB_OUTPUT
+        run: echo "matrix={\"include\":$(cat .github/workflows/matrix_json_short.json | jq -c '.[] | select (.name == "Luigi")')}" >> $GITHUB_OUTPUT
   job2:
     needs: job1
     runs-on: ubuntu-latest
