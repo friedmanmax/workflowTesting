@@ -44,8 +44,8 @@ jobs:
         id: "auth"
         uses: "google-github-actions/auth@v1"
         with:
-          workload_identity_provider: "projects/225125577487/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions"
-          service_account: "functions-deploy@analytics-dev-328216.iam.gserviceaccount.com"
+          workload_identity_provider: "projects/31/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions"
+          service_account: "functions-deploy@analytics-dev.iam.gserviceaccount.com"
       - name: Deploy
         run: | 
           gcloud config set project ${{ matrix.project }}

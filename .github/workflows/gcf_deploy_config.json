@@ -3,6 +3,6 @@
         "folder": "a",
         "project": "b",
         "service-account": "c",
-        "other-params": "d"
+        "otherparams": "d"
     }
 ]
