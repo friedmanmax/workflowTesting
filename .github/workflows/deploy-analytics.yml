@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
-        run: echo "matrix={\"include\":[$(cat .github/workflows/gcf_deploy_config_scratch.json | jq -c '.[] | select(.folder == "${{ inputs.gcf }}"))')" >> $GITHUB_OUTPUT
+      run: echo "matrix={\"include\":[$(cat .github/workflows/gcf_deploy_config_scratch.json | jq -c '.[] | select (.folder == "${{inputs.choice}}")')]}" >> $GITHUB_OUTPUT
   job2:
     needs: set-matrix
     runs-on: ubuntu-latest
