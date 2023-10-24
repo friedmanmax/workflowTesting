@@ -1,0 +1,58 @@
+name: Deploy Analytics Functions
+on:
+  workflow_dispatch:
+    inputs:
+      gcf:
+        type: choice
+        description: Name of the GCF to deploy
+        options:
+        - talkdesk_api_puller
+
+jobs:
+  set-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: echo "matrix={\"include\":[$(cat .github/workflows/gcf_deploy_config.json | jq -c '.[] | select(.folder == "${{ inputs.gcf }}"))')" >> $GITHUB_OUTPUT
+  job2:
+    needs: set-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.set-matrix.outputs.matrix) }}
+    steps:
+      - run: echo ${{matrix.name}}
+      - run: echo ${{matrix.address}}
+
+  deploy:
+    name: Deploy Analytics Projects
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.set-matrix.outputs.matrix) }}
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: "Authenticate to Google Cloud"
+        id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: "projects/225125577487/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions"
+          service_account: "functions-deploy@analytics-dev-328216.iam.gserviceaccount.com"
+      - name: Deploy
+        run: | 
+          gcloud config set project ${{ matrix.project }}
+          cd ${{ matrix.folder }}
+          gcloud functions deploy ${{ matrix.folder }} \
+           --runtime python311 \
+           --set-env-vars GCP_PROJECT=${{ matrix.project }} \
+           --entry-point=main \
+           --service-account ${{ matrix.service-account }} \
+           ${{ matrix.other-params }}
