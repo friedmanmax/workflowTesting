@@ -1,0 +1,8 @@
+[
+    {
+        "folder": "talkdesk_api_puller",
+        "project": "analytics-dev-328216",
+        "service-account": "analytics-dev-328216@appspot.gserviceaccount.com",
+        "other-params": "--trigger-http --no-allow-unauthenticated --max-instances 1"
+    }
+]
