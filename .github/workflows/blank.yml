@@ -21,6 +21,7 @@ on:
         - Princess
         - Mario
 
+run-name: ${{ format('Testing run: {0} to {1}', inputs.choice, github.ref_name) }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 
 jobs:
