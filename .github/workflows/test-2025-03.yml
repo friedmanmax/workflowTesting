@@ -1,0 +1,23 @@
+name: Import Jurisdiction Metadata csv
+
+on:
+  push:
+
+jobs:
+  fetch-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the current repo
+        uses: actions/checkout@v4
+    
+      - name: Download jurisdiction_metadata.csv
+        run: |
+          curl -L \
+            -H "Accept: application/vnd.github.v3.raw" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o jurisdiction_metadata.csv \
+            https://api.github.com/repos/friedmanmax/streamlit-example/contents/requirements.txt  
+
+      - name: Verify file contents
+        run: cat jurisdiction_metadata.csv
